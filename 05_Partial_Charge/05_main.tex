@@ -8,6 +8,7 @@ DFT assumptions made thus far. Specifically, the total dipole for the monomer, d
 Once a suitable technique is selected, a similar investigative technique as used in the structural optimization and potential map calculations is employed. That is, partial charge analysis is performed on the vacuum-geometry and beryl-geometry water molecule arrays in vacuum followed by analysis on the framework-inclusive system. 
 
     \section{Benchmark}
+    \label{sec:benchmark}
     
     \paragraph{Overview} As mentioned above, there exists different partial charge analysis techniques, each with their own advantages and disadvantages. Specifically, four different techniques are compared: (1) Bader Charge Analysis [\textbf{CITATION}], (2) DDEC analysis with ChargeMol [\textbf{CITATION}], (3) DDEC6 analysis [\textbf{CITATION}], and (4) centers of Maximally Localized Wannier Functions (MLWF) [\textbf{CITATION}]. 
     
@@ -27,6 +28,7 @@ Once a suitable technique is selected, a similar investigative technique as used
     \noindent for sum over $N$ total elements, with charge $q_i$ and position $\Vec{r}_i$ of element $i$. Note, it is actually the magnitude of the total system dipole moment $ p = |\Vec{p}|$ that is of particular interest and will be compared to literature values for this benchmark.
     
         \subsection{Convergence Issue} 
+        \label{sec:convergence_issue}
         At this point, it is important to point out a significant source of systematic error with this study. The above procedure should result in reproducible dipole moments. Unfortunately, that is not the case. When running the exact same post-processing procedure on the same self-consistent wavefunction, different dipole moments are calculated. Most of these calculated dipoles fluctuate around the expected value, but outliers that are up to 50 times too larger can also appear.
         
         \begin{figure}
@@ -95,6 +97,7 @@ Once a suitable technique is selected, a similar investigative technique as used
     Therefore, vacuum case results are prioritized, for both the vacuum-geometry and beryl-geometry water molecules. This allows for an attempt at parameterization to establish proof-of-concept (see Appendix \textbf{parameter test section}, without having to run all of the expensive beryl-case calculations (not to mention trying to fit the dipole-framework interaction to an acceptable analytic function). Even still, data for the beryl cases will be collected up until point of submission, and the results attained will also be reported below.
     
         \subsection{Vacuum Case}
+        \label{sec:pc_vacuum_Case}
         
         \textbf{Procedure} As mentioned above, the relatively small system size for the vacuum case allows for a larger sample size to be collected. Specifically, for both the vacuum-geometry and beryl-geometry water molecules, the individual and total dipoles are calculated according to the benchmark procedure 25 times for each self-consistent configuration calculated during the potential map investigation. Outliers rejection tolerance is set to $s=1$.
         
@@ -134,6 +137,7 @@ Once a suitable technique is selected, a similar investigative technique as used
         \end{figure}
         
             \subsection{Partial Charge Assignment}
+            \label{sec:pc_assign}
             
             Using the dipole results in conjunction with the structural optimization results, the partial charges are assigned using the following procedure.
             
@@ -179,6 +183,35 @@ Once a suitable technique is selected, a similar investigative technique as used
         
         
         \subsection{Beryl Case}
+        \label{sec:pc_beryl_case}
         
+        As mentioned before, determining the Wannier centers, and hence the partial charge, for the water molecules in the beryl framework is quite expensive. In the same amount of time that the vacuum case calculations can be made 25 times per configuration, only ten in-framework calculations per configuration can be performed. Due to time limitations, it is unclear if all of the fills will be investigated before completion of this work, but what results are attained are reported below.
+        
+        \paragraph{Procedure} The same procedures as utilized in the vacuum cases are used for both the generation of the Wannier data and the partial charge assignment. As noted, however, only ten Wannier calculations are performed for each configuration.
+        
+        \paragraph{Results and Analysis} The preliminary results for the average individual dipole for water molecules in the beryl framework (red) are given in Fig. \ref{fig:pc_beryl_pc}. For comparison, the results for vacuum cases with beryl- and vacuum-geometry (blue and green, respectively) are provided for comparison. As expected, the smaller sample size manifests itself as a greater error in the average dipole compared to the vacuum cases. Furthermore, the average dipole for the beryl-geometry in vacuum case and in-beryl case are indistinguishable from each other when considering the error. Whether or not they would remain distinguishable as better statistics are achieved is uncertain, but the prospect hints at a more efficient way of calculating the dipoles. Namely, use the in-framework geometry in the vacuum case---saving potentially weeks of calculations. Also, if this indistinguishability holds, it would support the idea that the framework interacts nominally with the dipole-dipole system.
+        
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.9\linewidth]{Figures/System/pc_beryl_pc.png}
+            \caption{The average individual dipole moment as a function of fill for extra-framework water molecules in the beryl framework (red). The vacuum cases with vacuum- and beryl-geometry (green and blue, respectively) are provided for comparison.}
+            \label{fig:pc_beryl_pc}
+        \end{figure}
+        
+        The discrepancy between partial charge is even less than that for the dipole, with the in-framework and beryl-geometry vacuum cases agreeing to six decimal places (a few orders of magnitude greater accuracy than this study is claiming) for the oxygen atom partial charge
+        
+        \begin{equation}
+            q_O = -4.947902\text{ } |e|.
+        \end{equation}
         
     \section{Summary and Outlook}
+    
+    Overall, the partial charge analysis stage proves to be the biggest bottleneck in terms of computational resources needed. As discussed in Section \ref{sec:benchmark}, this is because of a known convergence issues in the Wannierization procedure using VASP, Wannier90, and the VASP2WANNIER library. Even still, a workable procedure that involves rejecting outliers using the modified Z-score is identified and used to benchmark the cases of the water monomer, dimer, and trimer (Section \ref{sec:convergence_issue}). The results for both individual dipole and total dipole generally agree with the results found in literature, providing confidence in the prescribed procedure.
+    
+    Overcoming this convergence issue should be a primary focus for future studies, and said studies would be advised to use the water n-mer cases as a benchmark when choosing functionals, basis sets, etc. Also, over partial charge analysis methods (e.g. DDEC6) may yield better results under different approximations. If such a set of approximations can be found, using DDEC6, for example, would results in orders of magnitude decrease in the cost of this step.
+    
+    Next, the vacuum case for extra-framework water molecules---both with vacuum- and beryl-geometry---is examined in Section \ref{sec:pc_vacuum_Case}. Both geometry cases exhibit similar dipole as function of fill behavior, but the beryl-geometry case experiences a \textit{contraction}-like effect that is consistent with the \textit{dilation}-like effect on geometry found previously. As mentioned numerous times before, examining larger sample sizes with greater fill degeneracy would be of particular interest, because it would allow for a more general dipole versus fill curve to be found.
+    
+    A procedure for using the optimized geometry results and dipole results to determine the partial charge assignments in outlined in Section \ref{sec:pc_assign}. The resulting oxygen partial charge assignments mirror the dipole results in the sense that the differences between the two geometry cases are qualitatively negligible. For the partial charge; however, there is less discrepancy in partial charge assignment between the two geometry types than the dipole magnitudes.
+    
+    Finally, preliminary results for the case of extra-framework water molecules in the beryl crystal are provided in Section \ref{sec:pc_beryl_case}. As discussed, these calculations are significantly more expensive than the vacuum counterparts, and only a partial data set is available as of time of writing. From the available results, it appears that very little difference in dipole magnitude, and even less difference in partial charge assignment, exists between the beryl-geometry in vacuum and the in-beryl cases. If this trend holds as more data is attained, it would suggest a significant increase in productivity by allowing for partial charge assignment as calculated in vacuum. Having the dipole-framework contribution parameters as degrees-of-freedom also makes this approach more plausible.
