@@ -1,0 +1,119 @@
+\chapter{Theory}
+
+In the following chapter, the necessary theory to understand this work and its analysis is presented. The explanations below are not meant to be exhaustive, rather the minimal set of information needed for comprehension. For readers seeking more information, additional sources are cited.
+
+To start, a high-level overview of Density Functional Theory is presented, followed by a quantum mechanical technique called Wannierization. Finally, an introduction to force fields is provided to better elucidate the goals of this research.
+
+Certain assumptions are made regarding the reader's background knowledge. A certain familiarity with quantum mechanics and solid state physics is assumed. Specifically, it is assumed the reader is familiar with enough quantum mechanics to understand the quantum description of the hydrogen atom and the concepts of the unit cell, reciprocal space, and Bloch functions. 
+
+\section{Density Functional Theory}
+
+Density Functional Theory (DFT) is a quantum mechanical technique used to the solve interacting many-body problem and attain an approximation for the groundstate wavefunction of a system [\textbf{bird's eye view of dft paper}]. However, to truly appreciate what DFT has to offer, first consider a system of ions and electrons, totally $N$ bodies. Solving any equations for such a system is a $3N$ dimensional problem. This dimensionality can be (drastically) reduced (in the case of large $N$) if one considers rather the ion and electron densities. Since the Born-Oppenheimer (BO) approximation is typically invoked\textemdash that is, the ionic and electronic systems can be decoupled\textemdash this reduces the problem to solving for a 3-dimensional wavefunction.
+
+    \subsection{Hohenberg-Kohn Theorems} 
+    
+    The theoretical underpinning for DFT comes from the Hohenberg-Kohn (HK) theorems. They are as follows: (HK-1) There exists a one-to-one mapping between the groundstate electron density $n(\Vec{r})$ and the groundstate wavefunction $\psi (\Vec{r})$ for a non-degenerate groundstate, and (HK-2) The groundstate density $n_\text{min}(\Vec{r)}$ minimized the total energy. [\textbf{HK 1964 paper}]
+    
+    Taken together, the HK theorems provide a road map for solving the interacting many-body problem. Rather than treating each interacting body explicitly, the electron \textit{density} of the groundstate is sought. Once that is determined, a simple mapping is applied to attain the groundstate wavefunction $\psi_0$.
+    
+    Note, the first HK theorem (HK-1) is in essence an existence theorem, not a construction theorem. Rather than identify the specific mapping between groundstate density and groundstate wavefunction, it proves that such a mapping exists. To construct such a mapping, one uses the Kohn-Sham equation.
+    
+    \subsection{Kohn-Sham Equation} 
+    
+    The Kohn-Sham (KS) equation is a single-particle, Schrödinger-like equation for a fictitious system of non-interacting particles that produces the same groundstate density as the interacting many-body system. It takes the form
+    
+    \begin{equation}
+        \label{eq:ks}
+        \left[-\frac{\hbar^2}{2 m}\nabla^2 + V_\text{eff}(\Vec{r}) \right]\phi_i(\Vec{r}) = \varepsilon_i \phi_i(\Vec{r}),
+    \end{equation}
+    
+    \noindent for reduced Planck constant $\hbar$, electron mass $m$, gradient operator $\nabla$, an effective potential $v_\text{eff}$, and fictitious KS-orbitals $\phi_i$ with corresponding KS-energy $\varepsilon_i$. (Note, again the BO approximation is invoked here.) The density of the original $N$-body problems is related to the fictitious KS-orbitals by
+    
+    \begin{equation}
+        n(\Vec{r}) = \sum\limits_{i=1}^N |\phi_i(\Vec{r}) |^2
+    \end{equation}
+    
+    The total energy for the KS-system is given by
+    
+    \begin{equation}
+    \label{eq:func1}
+        E[n] = T[n] + E_\text{ext}[n] + E_\text{H}[n] + E_\text{xc}[n],
+    \end{equation}
+    
+    \noindent with KS-kinetic energy
+    
+    \begin{equation}
+    \label{eq:func2}
+        T[n] = \sum\limits_{i=1}^N \int \phi_i^*(\Vec{r})\left(-\frac{\hbar^2}{2m}\nabla^2 \right)\phi_i(\Vec{r})d\Vec{r},
+    \end{equation}
+    
+    \noindent external energy using the system-specific external potential $\nu_\text{ext}$
+    
+    \begin{equation}
+        E_\text{ext}[n] = \int \nu_\text{ext}(\Vec{r}) n(\Vec{r})d\Vec{r},
+    \end{equation}
+    
+    \noindent Hartree/Coulomb correlation 
+    
+    \begin{equation}
+    \label{eq:func3}
+        E_\text{H}[n] = \frac{e^2}{2}\int\int \frac{n(\Vec{r})n(\Vec{r'})}{|\Vec{r} - \Vec{r'}|}d\Vec{r}d\Vec{r'}, 
+    \end{equation}
+    
+    \noindent and exchange-correlation (xc) energy $E_\text{sc}$ which is discussed in detail below. 
+    
+    (As a nomenclature note, eqs. (\ref{eq:func1}-\ref{eq:func3}) are functionals as denoted by the use of $[\text{ }]$. Put simply a functional is a function that takes other functions, such as the density $n(\Vec{r})$, as inputs.)
+    
+    The latter three terms in (\ref{eq:func1}) are related to what is often called the KS-effective potential
+    
+    \begin{equation}
+        V_\text{eff}(\Vec{r}) = \nu_\text{ext}(\Vec{r}) + \frac{e^2}{2}\int \frac{n(\Vec{r'})}{|\Vec{r}- \Vec{r'}|} d\Vec{r'} + \nu_\text{xc}(\Vec{r}),
+    \end{equation}
+    
+    \noindent with the xc-potential $\nu_\text{xc}$ defined as
+    
+    \begin{equation}
+        \nu_\text{xc}(\vec(\vec{r})) = \frac{\partial E_{xc}[n(\vec{r})]}{\partial n(\vec{r})},
+    \end{equation}
+    
+    \noident which encompasses all other many-body interactions and is the only component that is not known exactly.
+    
+    \subsection{Exchange-Correlation Functional}
+    
+    Broadly stated, exchange-correlation refers to all of the interactions between the many-bodies with corresponding xc-energy $E_\text{xc}$. In the case of electrons, the exchange refers to the well-known Pauli exclusion principle, and the correlation refers to all other correlations with the exception of the Hartree/Coulomb correlation, for which eq. (\ref{eq:func3}) already accounts. The corresponding energy is thus
+    
+    \begin{equation}
+        \label{eq:xc_energy}
+        E_\text{xc}[n(\Vec{r})]= \int \left\{ \varepsilon_\text{x}[n(\Vec{r})] + \varepsilon_\text{c}[n(\Vec{r})]\right\} n(\vec{r})d\vec{r},
+    \end{equation}
+    
+    \noindent with exchange potential $\varepsilon_\text{x}$ and correlation potential $\varepsilon_\text{c}$.
+    
+    As the use of phrases such as "all other correlations" may suggests, eq. (\ref{eq:xc_energy}) is not known exactly and is where errors are introduced to DFT. Collectively, these potentials are known as the xc-functional $\varepsilon_\text{xc} = \varepsilon_\text{x} + \varepsilon_\text{c}$ and approximations must be used.
+    
+    \paragraph{Local-Density Approximation} One of the more basic approximations is the Local-Density Approximation (LDA), which depends solely upon the electron density at a given point
+    
+    \begin{equation}
+        \varepsilon_\text{xc}[n(\vec(r))] \approx \varepsilon_\text{xc}^\text{LDA}[n(\vec(r))].
+    \end{equation}
+    
+    \noindent Here, $\varepsilon_\text{xc}^\text{LDA}$ is the xc-functional for a homogeneous electron gas (HEG) with density $n$. An analytic form of the exchange component is known, but the correlation component is only known exactly in limiting cases [\textbf{bird's eye view}]. 
+    
+    \paragraph{Generalized Gradient Approximation} Implicit in the description above, the LDA assumes that the density does not vary, or put differently, the gradient of the density vanishes. While this is true in the case of the HEG, it is not generally so, and this discrepancy often manifests itself by (under-) over-estimating the (exchange) correlation energy [\textbf{10.1063/1.4869598}]. To combat this, the LDA functional is expanded to include the gradient of the density 
+    
+    \begin{equation}
+    \label{eq:gga}
+        \varepsilon_\text{xc}[n(\vec(r))] \approx \varepsilon_\text{xc}^\text{GGA}[n(\vec(r)),\nabla n(\vec(r))].
+    \end{equation}
+    
+    \noindent Conceptually, this can be thought of as the first correction to the Taylor expansion of the density at point $\vec{r}$. While one could in theory use as many terms in this expansion as desired, this work uses functionals of the form (\ref{eq:gga}) throughout.
+    
+    \subsection{Variational Principle}
+    
+    \subsection{Algorithm Summary}
+    
+
+\section{Wannierization}
+
+\section{Force Fields}
+

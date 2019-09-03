@@ -37,7 +37,7 @@
             
             \noindent for beryl.
             
-        The standard self-consistent calculator as outlined in \textbf{MAKE CALCULATOR SECTION} is employed for all self-consistent calculations. 
+        \Paragraph{Calculation Details} }The standard self-consistent calculator as outlined in \textbf{MAKE CALCULATOR SECTION} is employed for all self-consistent calculations. 
             
         
         
@@ -117,6 +117,8 @@
         Looking at the right subfigure in Fig. \ref{fig:decouple_assumption}, the average OH bond length and OHO angle for both the full and selective relaxations with energy difference tolerance $10^{-4}$ are compared via their ratios. Again, the ratios of both geometry parameters are nearly unity, suggesting there is no significant difference in the water molecule geometry between the two relaxation schemes. Furthermore, as shown in Table \ref{tab:ediff_r_diff}, both the average displacement and maximum displacement of the ions under the two relaxation schemes is significantly small compared to the length of the lattice vectors ($<1\%$ in both cases). 
         
         The validity of the decoupling assumption is therefore confirmed for purposes of geometry optimization under an energy difference tolerance of $10^{-4}$ eV.
+        
+        
     \section{Geometry Optimization}
     \label{sec:geo_opt}
     
@@ -130,7 +132,7 @@
         \label{fig:geom_supercell}
     \end{figure}
     
-    \paragraph{Procedure} To start, a supercell is created by replicating the unit cell once in the c-direction, resulting in four cages, as shown in Fig. \ref{fig:geom_supercell}. The cages are labelled, starting from the bottom-most, as A, B, C, and D. With four cages, it is possible to probe fill factor $\phi \in \{0.25,0.50,0.75,1.00 \}$. For $\phi=0.50$, there exists a degeneracy in the fills, i.e. both configurations with A \& C filled and A \& B filled correspond to the same fill factor. To make discussion herein as unambiguous as possible, the binary conventions in Table \ref{tab:fill_conventions} are used throughout. Occasionally, the water molecule that occupies a cage may be referred to by the cage label. For example, in Fig, \ref{fig:geom_supercell}, the water molecule in cage C may be referred to as water molecule C. 
+    \paragraph{Procedure} To start, a supercell is created by replicating the unit cell once in the c-direction, resulting in four cages, as shown in Fig. \ref{fig:geom_supercell}. The cages are labelled, starting from the bottom-most, as A, B, C, and D. With four cages, it is possible to probe fill factor $\phi \in \{0.25,0.50,0.75,1.00 \}$. For $\phi=0.50$, there exists a degeneracy in the fill configurations, i.e. both configurations with A \& C filled and A \& B filled correspond to the same fill factor. To make discussion herein as unambiguous as possible, the binary conventions in Table \ref{tab:fill_conventions} are adopted throughout. Occasionally, the water molecule that occupies a cage may be referred to by the cage label. For example, in Fig. \ref{fig:geom_supercell}, the water molecule in cage C may be referred to as water molecule C. 
     
     \begin{table}[]
         \centering
@@ -148,11 +150,11 @@
         \label{tab:fill_conventions}
     \end{table}
     
-    While the fill factor $\phi$ provides one dimension of the parameter space to explore, it does not encompass the entirety of the space. The geometry must also be probed as a function of relative angle to the beryl framework \textit{and} the relative angle between water molecules. Naturally, only a smaller subspace of this parameter space can be sampled, and said subspace is outlined in Table \ref{tab:param_subspace}.
+    While the fill factor $\phi$ provides one dimension of the parameter space to explore, it does not encompass the entirety of the space. The geometry must also be probed as a function of relative angle to the beryl framework \textit{and} the relative angle between extra-framework water molecules. Naturally, only a small subspace of this parameter space can be sampled, and said subspace is outlined in Table \ref{tab:param_subspace}.
     
     For example, for fill 1110, molecule C is held fix, while molecule A is rotated through 12 rotations totaling $2\pi$, and for each rotation of A, molecule B is also rotates through 12 rotations totaling $2\pi$. In all, $12^2 = 144$ configurations are sampled for this fill. Also, for fill 1111, molecules A-C and B-D are pairwise ferroelectrically coupled, and therefore rotate together. 
     
-    The above demonstrates the difficulty of adequately sampling this parameter space, especially considering the expense of these calculations (approximately 8 hours per configuration running on 16 cores). Given more resources, a greater sample size would be ideal, specifically increasing the number of rotations. It may also help optimization if the rotation angle were decreased to encompass only the asymmetric unit of the crystal.
+    The above demonstrates the difficulty of adequately sampling this parameter space, especially considering the expense of these calculations (approximately 8 hours per configuration running on 16 cores). Given more resources, a greater sample size would be ideal, specifically increasing the number of rotations. It may also help optimization if the rotation angle were decreased to encompass only the asymmetric unit of the crystal rather than a full $2\pi$ rotation.
     
     In addition to performing the above procedure with the water molecules in the beryl framework, the same is carried out on water molecules in the same configurations in the absence of the beryl crystal. In other words, the spacing and rotation of the water molecules is the same, but the calculations are carried out in vacuum. This allows for investigation of how the beryl framework affects the geometry, if at all.
     
@@ -172,11 +174,11 @@
         \label{tab:param_subspace}
     \end{table}
         
-        \subsection{Computational Details}
+        \paragraph{Calculation Details}
         
         For each configuration in Table \ref{tab:param_subspace}, the selective relaxation scheme as outlined in \ref{sec:da} is used. After the relaxation, the relevant geometric measurements are made using ASE. 
         
-        \subsection{Results and Conclusions}
+        \paragraph{Results and Analysis}
         \label{sec:geom_opt}
         
         \begin{figure}
@@ -186,7 +188,7 @@
             \label{fig:geom_kdes}
         \end{figure}
         
-        Figure \ref{fig:geom_kdes} shows the kernel density estimates for the OH bond lengths and OHO angles. Each subplot represents the population density of the sampled set. Immediately clear is the fact that there is an effect of fill on the geometry of the water molecules, as evident by the qualitative difference in shape of the population densities. In any case, for each, there is a well-defined peak, suggesting that an average geometry per fill is meaningful. However, the variance of the population density is directly proportional to the fill, suggesting that rotation does have some effect on the geometry. 
+        Figure \ref{fig:geom_kdes} shows the kernel density estimates for the OH bond length and OHO angle populations. Each subplot represents the population density of the sampled set. Immediately clear is the fact that there is an effect of fill on the geometry of the water molecules, as evident by the qualitative difference in shape of the population densities. In any case, for each, there is a well-defined peak, suggesting that an average geometry per fill is meaningful. However, the variance of the population density is directly proportional to the fill, suggesting that rotation does have some effect on the geometry with the effect being more prominent for greater fills. 
         
         
         
@@ -205,5 +207,14 @@
         
         Moving forward, the fill specific geometries, as shown in Fig. \ref{fig:geom_results}, are used. 
         
-        \paragraph{Outlook}
-        To improve upon these parameters, a larger subspace of the parameter space should be investigated. Additionally, changing the size and shape of the unit cell---and thus the fill configurations that correspond to certain fill factors $\phi$---and investigating the average geometry would be of interest as well. Notebly, what happens if the supercell is created by replicating the unit cell along the a- or b-directions? 
+    \section{Summary and Outlook}
+    
+    In Section \ref{sec:eos}, the well-behaved energy versus volume curve yielded an optimized volume of $V_0 = 695.39$ $\angstrom^3$, which is within 3\% of the literature value as measured at STP. The calculated bulk modulus $B_0 = 1.1249$ eV/$\angstrom^3$ is just outside the experimental margin of error ($B_{0,\text{exp}} = 1.1 \pm 0.01$ eV/$\angstrom^3$). While results are in good agreement with literature, improvements could be made by either fitting to more than just the Birch-Murnaghan equation of state and averaging the optimized thermodynamic properties from each fit. Or, different functionals or pseudopotentials could be tested to determine their effect. 
+    
+    After performing the geometry optimization under both the full and selective relaxation protocols for energy stopping tolerance $10^{-4}$ and $10^{-5}$ in Section \ref{sec:da}, the larger tolerance and selective relaxation protocol are deemed appropriate, since no significant difference is measurable otherwise. In the future, testing this assumption with a smaller energy stopping difference and/or more water molecule configurations will either reaffirm the findings here or suggest more accurate approximations.
+    
+    Finally, geometry optimization of the extra-framework water molecules is carried out in Section \ref{sec:geo_opt}. A measurable effect on geometry as a function of fill is observed. Specifically, the OH bond length increases slightly with fill, while the OHO angle decreases slightly. The geometry optimization was also carried out in vacuum (without the beryl framework but with the same spacing of extra-framework water molecules), and similar trends were observed. A systematic increase in both OH bond length and OHO angle was observed when moving from the vacuum to in-beryl case, suggesting that the framework crystal exerts a dilating effect on the water molecule.
+    
+    In retrospect, some significant improvements in this protocol are apparent. Mainly, the water molecule configurations ended up being at high symmetry points with respect to the framework crystal. By increasing the rotational sample frequency, less symmetric configurations would be sampled. Even better, a random, Monte Carol-esque method for selecting the rotation angles between framework and extra-framework molecules would provide for a more efficient sampling of this parameter space. Additionally, it would be interesting to see what happens if the degrees of freedom for the water ions was limited in such a way that the ions can only move within the OHO-plane. This would force the water molecule to retain its angle relative to the framework, which is not currently the case.
+        
+    To improve upon these parameters, a larger subspace of the parameter space should be investigated. Additionally, changing the size and shape of the unit cell---and thus the fill configurations that correspond to certain fill factors $\phi$---and investigating the average geometry would be of interest as well. Notably, what happens if the supercell is created by replicating the unit cell along the a- or b-directions? 
