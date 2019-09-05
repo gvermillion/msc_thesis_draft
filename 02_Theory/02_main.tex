@@ -12,7 +12,7 @@ Density Functional Theory (DFT) is a quantum mechanical technique used to the so
 
     \subsection{Hohenberg-Kohn Theorems} 
     
-    The theoretical underpinning for DFT comes from the Hohenberg-Kohn (HK) theorems. They are as follows: (HK-1) There exists a one-to-one mapping between the groundstate electron density $n(\Vec{r})$ and the groundstate wavefunction $\psi (\Vec{r})$ for a non-degenerate groundstate, and (HK-2) The groundstate density $n_\text{min}(\Vec{r)}$ minimized the total energy. [\textbf{HK 1964 paper}]
+    The theoretical underpinning for DFT comes from the Hohenberg-Kohn (HK) theorems. They are as follows: (HK-1) There exists a one-to-one mapping between the groundstate electron density $n(\Vec{r})$ and the groundstate wavefunction $\psi (\Vec{r})$ for a non-degenerate groundstate, and (HK-2) The groundstate density $n_0(\Vec{r)}$ minimizes the total energy. [\textbf{HK 1964 paper}]
     
     Taken together, the HK theorems provide a road map for solving the interacting many-body problem. Rather than treating each interacting body explicitly, the electron \textit{density} of the groundstate is sought. Once that is determined, a simple mapping is applied to attain the groundstate wavefunction $\psi_0$.
     
@@ -110,10 +110,129 @@ Density Functional Theory (DFT) is a quantum mechanical technique used to the so
     
     \subsection{Variational Principle}
     
+    Before putting all of the above theoretical pieces together, one more piece is needed to form an high-level understanding of DFT\textemdash the variational principle. From calculus of variations, it is known that any physical quantity that depends on a set of equations can be optimized by an element in that set. The generalized methods by which this function is obtained is referred to as the variational principle [\textbf{ISBN 0-8020-1743-6}]. Note, an implicit assumption in the above statement is that the quantity, or observable, being measured is bound on at least one end.
+    
+    To unpack this definition contextually, consider the energy $E$ of some quantum mechanical system, which is a functional of the wavefunction $\psi$
+    
+    \begin{equation}
+    \label{eq:en_var}
+        E \rightarrow E[\psi(\vec{r})].
+    \end{equation}
+    
+    \noindent Knowing that the system has some groundstate energy $E_0$ described by some groundstate wavefunction $\psi_0$, the energy value in (\ref{eq:en_var}) is strictly greater than or equal to the true groundstate energy. That is,
+    
+    \begin{equation}
+        \label{eq:varprinc}
+        E_0 = E[\psi_0(\vec{r})] \le E[\psi(\Vec{r})].
+    \end{equation}
+    
+    Equation (\ref{eq:varprinc}), coupled with the HK theorems, hints at a protocol for approximating the groundstate energy, and therefore wavefunction. This protocol is summarized below.
+    
     \subsection{Algorithm Summary}
     
+    Before presenting the algorithm, consider what is known:
+    
+    \begin{itemize}
+        \item There exists a one-to-one mapping between the groundstate wavefunction $\psi_0$ and the groundstate electron density $n_0(\Vec{r})$, and $n_0(\Vec{r})$ minimizes the total energy (e.g. gives the groundstate energy $E_0$). (HK 1-2)
+        \item The groundstate density $n_\text{KS}(\Vec{r})$ of the fictitious KS system is the same as the groundstate density $n_0(\Vec{r})$ of the quantum system. 
+        \item Any trial wavefunction $\psi(\Vec{r})$ corresponds to energy greater than or equal to the groundstate energy.
+    \end{itemize}
+    
+    \noindent Leveraging the above information, the following self-consistent algorithm is implemented in DFT.
+    
+    \begin{enumerate}
+        \item An initial guess of the density $n_k(\Vec{r})$ is made.
+        \item The effective potential $V_\text[n_k(\vec{r})]$ is evaluated.
+        \item The KS equation (\ref{eq:ks}) is solved.
+        \item The new density is calculated $n_{k+1}(\Vec{r}) = \sum\limits_{i=1}^N |\phi_i(\vec{r})|^2$.
+        \item The following statement is evaluated as True of False for some tolerance $\delta$:
+    \end{enumerate}
+    
+    \begin{equation}
+    \label{eq:self_con}
+        |n_{k}(\vec{r}) - n_{k+1}(\vec{r})| \le \delta.
+    \end{equation}
+    
+    \noindent In the event that (\ref{eq:self_con}) is not true, steps 1-5 are repeated using $n_{k+1}(\Vec{r})$ as the trial density, and this process continues until self-consistency is achieved. Once achieved, the wavefunction associated with the self-consistent density is determined to be the groundstate.
+    
+    While the exact subroutines that accomplish steps 1-5 vary by implementation, they are not necessary for the understanding, and are beyond the scope, of this work. Even with these black boxes, though, a high-level appreciation for the DFT approach is possible.
 
 \section{Wannierization}
 
+Wannierization is generally used to describe a change of basis transformation from one basis set to Wannier functions, which can serve as a basis set for periodic solids. Consider, for instance, the commonly used basis set comprised of Bloch orbitals
+
+\begin{equation}
+\label{eq:wan_1}
+    \Psi_{n,\vec{k}}(\Vec{r}) = e^{i\Vec{k}\cdot\Vec{r}} e^{i\varphi_n(\vec{k})} u_n(\vec{r}), 
+\end{equation}
+
+\noindent for wavenumber $\vec{k}$, arbitrary phase factor $e^{i\varphi_n(\vec{k})}$, and some function $u_n(\vec{r})$ with the same periodicity as the structure. The Wannier function (WF) is found by applying a unitary transformation, yielding
+
+\begin{equation}
+\label{eq:wan_2}
+    w_{n,\vec{R}}(\Vec{r}) = \frac{V}{(2\pi)^3} \sum\limits_{\Vec{k}}  \Psi_{n,\vec{k}}(\Vec{r}) e^{-i\Vec{k}\cdot\Vec{R}} e^{i\varphi_n(\vec{k})},
+\end{equation}
+
+\noindent for specific lattice site $\vec{R}$. Note, the similarities between (\ref{eq:wan_1}) and (\ref{eq:wan_2}) and that of a Fourier transformation. In both, a mapping between real- and reciprocal space occurs. In fact, in the case of Wannierization, the Bloch orbitals, which are localized in reciprocal space, are transformed into Wannier functions, which are localized in real space.
+
+It is worth noting that the WF (\ref{eq:wan_2}) is not unique due to the arbitrary phase factor $e^{i\varphi_n(\vec{k})}$, but this arbitrariness is exploited to choose a WF that minimizes the \textit{spread} $\Omega$, which is defined by
+
+\begin{equation}
+    \Omega \equiv \sum\limits_n \left[ \langle r^2 \rangle_n - \langle r \rangle^2_n \right]
+\end{equation}
+
+\noindent Such WFs, known as maximally localized wannier functions (MLWFs) are extremely useful to understand the system chemically and can be thought of as the conceptual analog to molecular orbitals in periodic solids [\textbf{wannier review}].
+
+
+There exist many reasons for doing such a transformation (see [\textbf{wannier review} for extensive review of theory and applications), but the impetus for this study lies in partial change analysis. It turns out the the centers of the MLWFs can be thought of as the classical location for the point charge, and the sum of all of the centers is related to the polarization [\textbf{wannier review}]. More details on how this technique is utilized are given in the Chapter \ref{ch:part_char}.
+
+Again, the actual subroutines implemented to calculated the MLWFs and their corresponding centers are treated as a black box for the purposes of this study.
+
 \section{Force Fields}
 
+There are many reasons why one would want to avoid using the DFT techniques described above when computationally investigating a system. For starters, DFT calculations generally require significant computational resources, to the point that running certain calculations in this require access to some type of cluster. There are benefits to this higher cost though, specifically the electronic subsystem's degrees of freedom are in fact free. When trying to calculate the effect on a molecule's dipole in the presence of other atoms, for example, it is necessary that the electronic subsystem can interact.
+
+What if, though, the obversable of interest in not dependent explicitly on the electronic subsystem\textemdash say, the dynamics of $N$ molecules in a box of volume $V$. Here, fluctuations in the electronic subsystem are assumed negligible for purposes of interaction calculations, and it is reasonable to assign point charges to the atoms, effectively freezing the electronic degrees of freedom. 
+
+Assigning such a point charge dramatically decreases computational cost, because the expensive DFT procedures can be skipped. But it immediately begs the question: how much charge do you assign to each atom? The process by which this question is answered is known as parameterization.
+
+    \subsection{Parameterization}
+    
+    In generally, parameterization is the process by which the total energy $E_T$ of a system is decomposed into independent contributions, namely bonded and non-bonded energy
+    
+    \begin{equation}
+        E_T = E_B + E_N.
+    \end{equation}
+    
+    \noindent The bonded and non-bonded energies can each be further decomposed (into bond, angle, and dihedral energies; and van der Waals and Coulomb energies respectively), wherein each one of these energies corresponds to a certain interaction.
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{Figures/System/water-molecule.jpg}
+        \caption{Depiction of a water molecules with one oxygen atom (red) and two hydrogen atoms (silver). The two covalent bonds are indicated by a white bar. [\textbf{turbosquid.com}]}
+        \label{fig:water_molecule}
+    \end{figure}
+    
+
+        \paragraph{Ex: H$_2$O Molecule Force Field}
+
+        To unpack this rather convoluted general definition, consider the case of a water molecule as shown in Fig. \ref{fig:water_molecule}. Between the oxygen atom (red) and each of the hydrogen atoms (silver), there exists a bond potential, given by
+        
+        \begin{equation}
+        \label{eq:bond_param}
+            E_\text{bond} = k_b(|\vec{r}|=|\vec{r_0}|),
+        \end{equation}
+        
+        \noindent for separation vector $\vec{r}$, equilibrium separation vector $\vec{r_0}$, and bond parameter $k_b$. In order to use (\ref{eq:bond_param}), values must be provided for the bond parameter and the equilibrium separation vector.
+        
+        Similarly, one can imagine an angle potential corresponding to the expansion and contraction of the OHO angle $\theta$
+        
+        \begin{equation}
+            E_\text{ang} = k_a(\theta - \theta_0),
+        \end{equation}
+        
+        \noindent for angle parameter $k_a$ and equilibrium OHO angle $\theta_0$. Again, both of these require a numeric value to be of any use. Finally, each atomic species has a partial charge assigned to it, such that the total charge vanishes.
+        
+        \paragraph{Tuning Parameter Value} There are numerous options for determining the parameter values, but the general procedure is the same. Some initial guess is made, typically in reference to a value from experiment or more-accurate quantum calculation, and an experiment is performed to measure an observable. For instance, the in the case of the water molecule, and box of water may be simulated at ambient conditions and the density of water molecules is measured. This measured density can be compared to the reference value, and if the results are not satisfactory, the parameters are adjusted slightly and the experiment is repeated.
+        
+        In this work, a variant of this procedure is followed.
