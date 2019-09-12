@@ -241,8 +241,102 @@
 
     \section{System Overview}
     
+    In the following, the system under investigation is briefly introduced. First, the framework crystal beryl is presented with relevant structural data followed by the extra-framework water. Throughout this work, more specific system details will be highlighted as necessary. This section is mainly concerned with familiarizing the reader with the system.
+    
         \subsection{Beryl Framework}
+        
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.9\linewidth]{Figures/System/beryl_structure.png}
+            \caption{Different representation of the beryl structure: (a) Top-down view of a beryl supercell, (b) askew view of single nanocage, (c) top-down view of nanocage components. See text for details. [\textbf{10.1039/c7cp06472a}]}
+            \label{fig:beryl_structure}
+        \end{figure}
+        
+        Beryl (Be$_3$Al$_2$Si$_6$O$_18$ is a hexagonal crystal composed on beryllium, silicon, aluminum, and oxygen atoms. The structure (shown in Fig. \ref{fig:beryl_structure}) can be decomposed into two components: a beryllium-aluminum octohedral backbone and silicon-oxygen tetrahedral rings. 
+        
+        When the unit cell (depicted in grey) is repeated, hollow channels formed when view along the $c$-axis (Fig. \ref{fig:beryl_structure}a). When viewed from the side, it is clear that these silicon-oxygen rings forms bottlenecks along the channel effectively creating a periodic array of nanocages (Fig. \ref{fig:beryl_structure}b), with each cage made up of two silicon-oxygen rings and one beryllium-aluminum ring (Fig. \ref{fig:beryl_structure}c).
+        
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.9\linewidth]{Figures/System/beryl_tem.png}
+            \caption{(A) Dark field TEM image of a sample of beryl variety; (B) enlarged region of TEM image, in which extra-framework species are visible; (C) line-cut intensity along path highlighted by box in (B) showing unambiguously the presence of extra-framework species.}
+            \label{fig:beryl_tem}
+        \end{figure}
+        
+        A dark-field tunneling electron microscope (TEM) image view down the $c$-axis is shown in Fig. \ref{fig:beryl_tem}. The hexagonal structure and channels are clearly visible in Fig. \ref{fig:beryl_tem}A, and when a smaller region is examined in detail (Fig. \ref{fig:beryl_tem}B) some of the channels appear to be occupied. By looking at an intensity line cut along the path highlighted in Fig. \ref{fig:beryl_tem}B, the occupation of the first and third channels in unambiguous. 
+        
+        Identification of the extra-framework species is not immediately clear from Fig. \ref{fig:beryl_tem}, but further studies have shown that these species can be cations or, as is of interest for this study, single water molecules [\textbf{nature paper}].
+        
         \subsection{Extra-Framework Water}
+        
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.9\linewidth]{Figures/System/beryl_water.png}
+            \caption{Diagrams showing water molecules confined in beryl nanocages and relevant geometries. The backbone is omitted for visual clarity. (A) Top-down and side view of six channels of cages, (B) Individual cages containing types I, II water molecules. [\textbf{nature paper}]}
+            \label{fig:beryl_water}
+        \end{figure}
+        
+        Beryl crystal are grown hydrothermally, and as part of that process, water molecules become trapped in the nanocages, as shown in Fig. \ref{fig:beryl_water}. Within the $ab$-plane, the water molecules are separated by a distance of 9.2 $\Angstrom$ and 4.8 $\Angstrom$ along the $c$-axis. This partitioning interrupts the hydrogen bond network typically found in water systems. As a result, the water molecules interact solely via the dipole-dipole interaction. 
+        
+        \paragraph{Water Types} Depending on the existence of additional foreign atoms, there exists two types of confined water. The first, type I, exists in the absence of any other foreign atom with the dipole moment in the $ab$-plane (Fig. \ref{fig:beryl_water}b, top). Relevant degrees of freedom include in-plane translation and librations (i.e. restricted rotations) about the high-symmetry point. When a cation is present in a silicon-oxygen ring, the electrostatic interaction between the water oxygen and cation causes the water molecule to rotate so that the dipole moment is parallel to the $c$-axis (Fig. \ref{fig:beryl_water}b, bottom). Here, the primary degree of freedom is rotation about the $c$-axis [\textbf{nature paper}]. 
+        
+        Type I water molecules are the focus of this study.
+        
+        \paragraph{Extra-Framework Dynamics} Due to the interruption of hydrogen bonds and regularly repeating framework, this confined system is a good candidate for ferroelectric ordering. Signatures of such ordering have been seen in low-temperature optical experiments, but complete ordering appears to be confounded by quantum fluctuations [\textbf{nature paper}]. Additionally, neutron scattering experiments suggest a novel tunneling state of water, characterized by a delocalization of the protons and electrons [\textbf{prl paper}].
+        
+        A detailed picture of the extra-framework water dynamics is still lacking, though\textemdash hence, this work.
         
     \section{Calculation Details}
     
+    All calculations are performed on the bwForCluster JUSTUS for Computational Chemistry and Quantum Science using two Intel Xeon E5-2630v3 Prozessor (Haswell, 8-core, 2.4 GHz) processors, for a total of 16 cores. The two software packages used are the Vienna ab initio Software Package (VASP) and Wannier90.
+    
+    \paragraph{VASP} All DFT calculations are performed with VASP 5.4.4.3.16052018 [\textbf{vasp}]. The Perdew-Burke-Ernzerhof (PBE) GGA is used throughout. Two different types of \textit{calculators}, or INCAR files, are used\textemdash a standard self-consistent calculator and a geometry optimization calculator. The relevant INCAR parameters are given in Tables \ref{tab:sc} and \ref{tab:geom}. respectively. Note, occasionally a value other than the ones listed is used (e.g. when testing convergence against EDIFF), but these divergences will always be highlighted in the text.
+    
+    \begin{table}[]
+        \centering
+        \begin{tabular}{c|c}
+            Parameter & Value  \\
+            \hline
+            \hline
+            encut & 500\\
+            ismear & -5\\
+            sigma & 0.025\\
+            prec & Acc\\
+            ediff & -1E-04\\
+            lreal & Auto\\
+            lorbit & 11\\
+            nelmin & 4\\
+            ncore & 16\\
+        \end{tabular}
+        \caption{INCAR parameters and values for the self-consistent calculator.}
+        \label{tab:sc}
+    \end{table}
+    
+        \begin{table}[]
+        \centering
+        \begin{tabular}{c|c}
+            Parameter & Value  \\
+            \hline
+            \hline
+            encut & 500\\
+            ismear & -5\\
+            sigma & 0.025\\
+            prec & Acc\\
+            ediff & -1E-04\\
+            ediffg & -0.01
+            lreal & Auto\\
+            lorbit & 11\\
+            ibrion & 2\\
+            potim & 1.0 \\
+            isif & 2\\
+            new & 50\\
+            nelmin & 4\\
+            ncore & 16\\
+        \end{tabular}
+        \caption{INCAR parameters and values for the geometry optimization calculator.}
+        \label{tab:geom}
+    \end{table}
+    
+    To generate the input files for Wannier90, VASP is compiled with the VASP2WANNIER library.
+    
+ \paragraph{Wannier90} The partial charge analysis is carried out using Wannier90 1.2 [\textbf{wannier.org}] The number of wannier functions and number of bands is set to half the number of electrons in all cases, since none of the calculations are spin polarized. All additional bands are explicitly excluded. Random initial projections are used, and the centers are written in XYZ format.
