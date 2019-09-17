@@ -30,10 +30,17 @@
 \hypersetup{ colorlinks, citecolor=green, filecolor=black, linkcolor=blue, urlcolor=blue }
 %\usepackage{tabularx}
 \usepackage{pdflscape}
+\usepackage{fourier} 
+\usepackage{array}
+\usepackage{makecell}
 \usepackage[acronym,toc]{glossaries}
 \usepackage{setspace}
 \setstretch{1.5}
 \newcommand{\angstrom}{\text{\normalfont\AA}}
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
 %\onehalfspacing
 % SPECIAL COMMANDS
 % correct bad hyphenation
@@ -127,11 +134,7 @@
 \include{03_Structural_Optimization/03_main}
 \include{04_Potential_Map/04_main}
 \include{05_Partial_Charge/05_main}
-%\include{Chapter1/chapter1}
-%\include{Chapter2/chapter2}
-%\include{Chapter3/chapter3}
-%\include{Chapter4/chapter4}
-%\include{Conclusions/conclusions}
+\include{Conclusions/conclusions}
 
 \appendix
 %\include{Appendix1/appendix1}

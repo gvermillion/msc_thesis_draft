@@ -1,18 +1,62 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%2345678901234567890123456789012345678901234567890123456789012345678901234567890
-%        1         2         3         4         5         6         7         8
-% THESIS CONCLUSIONS
-\def\baselinestretch{1}
-\chapter{Conclusions}
+
+\chapter{Summary and Conclusions}
 \label{chap:conclusions}
-\ifpdf
-    \graphicspath{{Conclusions/Figures/PNG/}{Conclusions/Figures/PDF/}{Conclusions/Figures/}}
-\else
-    \graphicspath{{Conclusions/Figures/EPS/}{Conclusions/Figures/}}
-\fi
-\def\baselinestretch{1.0}
 
-% quote
 
-Conclusions should summarize the problem, the solution and its main innovative features, outlining future work on the topic or application scenarios of the proposed solution.
+The work presented not only elucidates the structural properties and dynamics of nanoconfined water molecules in beryl, but it also identifies a computational protocol for studying similar crystal systems. The top-line conclusions and outlook for each portion of the study are presented below.
 
+\section{Structural Optimization} 
+
+\paragraph{Equation of State Fitting} First in Chapter \ref{ch:struct_opt}, the Birch-Murnaghan equation of state for the beryl framework was sampled and fit, and an equilibrium volume of $V_0= 695.39$ $\angstrom^3$ and bulk modulus of $B_0 = 1.1249$ eV/$\angstrom^3$ was found. These values are in good agreement with literature values \textemdash  $V_\text{lit} = 675\pm0.1$ $\angstrom^3$ and $B_\text{lit} = 1.1\pm0.01$ eV/$\angstrom^3$ \textemdash especially considering the latter where found at ambient conditions, and the former were calculated at zero temperature. 
+
+\paragraph{Decoupling Assumption} Within the equilibrium structure, the assumption stating that the framework and extra-framework dynamics can be decoupled was confirmed by relaxing the ionic positions two ways: (a) allowing all ions to relax and (b) allowing only the water ions to relax. (These two methods are referred to as the full and selective relaxations, respectively.) Additionally, convergence of the ionic positions was also tested for two energy stopping tolerances EDIFF = $10^{-4},10^{-6}$. No measurable difference of significance was found between the full and selective relaxation schemes. Furthermore, the structural parameters were found to be well-converged with respect to the larger EDIFF values. Therefore, the selective relaxation scheme with the larger energy stopping tolerance are deemed acceptable for the geometry optimization.
+
+\paragraph{Geometry Optimization} Different arrangements of water molecules were allowed to relax under the selective relaxation scheme with a variety of fills and relative angles. The same relaxations were also carried out without the beryl framework atoms (i.e. in vacuum) so that the influence of the framework itself could also be determined. For each fill factor, the geometry parameter distribution with respect to relative angles between water molecule is such that it is meaningful to describe the parameters using average values. Furthermore, there was a measurable difference between both the fill factor geometries and those with/without the beryl framework. The numeric results are provided in Table \ref{tab:geo_sum}. In general, the bond length is directly proportional to the fill, while the angle is indirectly proportional; and the beryl framework has a global dilation effect on the water molecules. That is, the presence of the beryl framework causes a systematic increase in both the bond length and the angle.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|c|c}
+      Fill & Bond Length [$\angstrom$] & Angle [deg] \\
+      \hline
+      \hline
+      0.25   & 0.97298(29)    & 105.35(08) \\
+             & [0.97214(08)]  & [104.40(49)] \\
+     \hline
+      0.50   & 0.97294(40)    & 105.19(12) \\
+             & [0.97219(50)]  & [104.36(14)] \\
+     \hline
+      0.75   & 0.97313(39)    & 105.09(13) \\
+             & [0.97228(68)]  & [104.18(26)] \\
+     \hline
+      1.00   & 0.97322(64)    & 104.81(25) \\
+             & [0.97252(86)   & [104.16(24)]
+    \end{tabular}
+    \caption{The geometry parameters as a function of fill. The values in square brackets denote parameters calculated in vacuum. The values in parenthesis represent the error. For the bond length the error is given in $\micro\angstrom$, and for the angle, the error is given in 0.001$^{o}$. }
+    \label{tab:geo_sum}
+\end{table}
+
+One possible improvement identified for this protocol involves the configurations used to sample the geometries. All geometries were sampled at symmetry points within the crystal. It may be worthwhile to perform the relaxation with randomly chosen water molecule positions, both relative to the framework and other extra-framework water molecules.
+
+\section{Potential Maps}
+
+\paragraph{Broad Sweep} To determine the smallest range through which water molecules can be rotated and still recover all significant features of the potential map at the high-symmetry point, two ferroelectrically coupled water molecules with fill 1010 are rotated through $\pi$ radians. As with the geometry relaxation, the convergence of the energy is tested with respect to EDIFF; except here, energy stopping tolerance of $10^{-4}$ and $10^{-6}$ are tested. Two local minima, corresponding to configurations with water molecule dipoles being co-linear with nearest and next-nearest neighbor dipoles, are identified that both have six-fold degeneracy. An additional 12-fold degenerate global minimum exists in between said local minima, but it is not clear whether or not this corresponds to any significant arrangement. These results confirm and extend the potential map assumptions used in previous studies. Additionally, no significant difference in the potential maps was found with respect to the two energy stopping tolerances.
+
+It is concluded that a smaller rotation range of $\pi/2$ radians with the larger energy stopping tolerance of $10^{-4}$ is appropriate for the remaining potential map calculations.
+
+\paragraph{Relative Angle Test} Next, the ferroelectric coupling is lifted, and potential maps are calculated with various relative angles between the two water molecules. As expected, the antiferroelectric alignment minimizes the energy of the potential maps systematically. Furthermore, when disregarding the angle relative to the beryl crystal, the potential energy as a function of relative angle between water molecules closely follows the heuristic of two classical dipoles interacting, with deviations being attributed to high-order dipole-dipole, or even dipole-framework, interactions. 
+
+\paragraph{Map vs. Fill} Using the antiferroelectric coupling moving forward, the potential maps are calculated as a function of fill. It is found that with each additional extra-framework water molecules, the potential energy decreases on average by 14.3125 eV. This suggests that the system prefers to be completely filled with water molecules, at least from an energetics standpoint. 
+
+In an attempt to disentangle the dipole-framework and dipole-dipole interactions, fine sweep potential maps are carried out over a slightly smaller rotation range (0.6 radians) with a larger sample frequency for the extra-framework water molecules rotating in beryl and in vacuum.
+
+\paragraph{Fine Sweep} Beginning with the in-beryl case, five critical points A-E are identified, correspond to local minima (A,C,E) and local maxima (B,D). By comparing the difference in energy between these critical points as a function of fill, a linear dependence on fill is found. Assuming such energy differences could be resolved in experiment, this feature may provide a way to experimentally determine the fill of a sample \textit{before} optical experiments are performed, rather than after, if a reference curve can be experimentally fit. 
+
+Next, the in-vacuum potential maps are calculated as a function of fill in two ways: (a) with the vacuum-geometry water molecules and (b) with the beryl-geometry water molecules. In both cases, the qualitative features of the potential maps remain, suggesting that features result primary due to the dipole-dipole interactions. There is a slight energetic preference for the vacuum-geometry water molecules, but the difference in negligible when compared to the energy difference due to fill. Again, the energy difference of the five critical points (A-E) are analyzed, but this time, a degeneracy is found between the local minima C and E. Therefore, in the absence of the framework, the dipole-dipole system experiences a six-fold degenerate local minimum an 18-fold degenerate global minimum. 
+
+By comparing the in-beryl and in-vacuum cases, it appears that the beryl framework contributes a slight pertubation that lifts the global minimum degeneracy. This observation is explicitly tested in the next subsection. 
+
+\paragraph{Difference Analysis} By subtracting the in-vacuum potential maps (with beryl-geometry water molecules) from the corresponding in-beryl potential maps, the energetic contributions from the dipole-framework interactions is analyzed. It is found that the framework contributes a sinusoidal-like background potential for the dipole-dipole system. This background potential can be scaled by the total number of water molecules to yield a per-molecule background potential. By taking the average of these per-molecule background potentials over fill, a well-mannered master per-molecule background potential is found. 
+
+The existence of such a master background potential suggests that if it can be fit to an analytic function, future potential maps could be calculated without the framework atoms, significantly reducing the computational cost. This reduction in computational cost would allow for one of the greatest improvements of this work to be implemented \textemdash specifically, using a larger unit cell, which would allow for more fill factors, and more degenerate configurations for each fill factor, to be investigated. This improvement is desired, because slight differences between the degenerate fill 0.50 cases were seen. While these differences were negligible compared to the effects of fill itself, they suggest that the spatial arrangement of the water molecules also affects the energetic of the system. Hence, a larger unit cell would allow for a greater exploration of this parameter space.
+
+\section{Partial Charge Analysis}
