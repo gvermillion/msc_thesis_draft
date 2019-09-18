@@ -8,8 +8,28 @@ With an acceptable smaller range for the fine sweep identified, a fine sweep is 
 In the final subsection, the differences in the fine sweep potential map are analyzed to determine (a) if the \textit{interesting} features of the potential maps are products of interaction in the water-beryl or water-water subsystems and (b) what the contribution is of the water-beryl subsystem interactions to the total potential map.
 
     \section{Motivation for Investigation}
-    Before beginning, however, it is important to highlight exactly why the high-symmetry potential map is worth investigating.
-    \textbf{WRITE THIS SECTION}. Different assumptions in literature, good point of comparison, etc.
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{Figures/System/pmap_misha.png}
+        \caption{Assumed six-fold sinusoidal potential map. [\textbf{vibrational paper}]}
+        \label{fig:pmap_misha}
+    \end{figure}
+    
+    Before beginning, however, it is important to highlight exactly why the seemingly contrived high-symmetry potential map is worth investigating.
+    
+    First and foremost, there is discrepancy in the literature about what the potential map looks like. Some groups have assumed a six-fold sinusoidal potential map (Fig. \ref{fig:pmap_misha}) [\textbf{vibrational paper}]. No distinction is made as to which rotation configuration the minima correspond. Another group has utilized a less-strict assumption \textemdash namely, a six-fold degenerate harmonic expansion (Fig. \ref{fig:pmap_other}). While here the minima are assigned to aligned nearest-neighbors, the potential in between minima is assumed to be constant. 
+    
+    Both assumed potential maps have been used in the analysis of data from optical experiments. If a more accurate potential map can be used, the results from said analyses should improve.
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{Figures/System/pmap_other.png}
+        \caption{(Top) Top-down view of water molecule in nanocage with transverse and librational modes identified. (Bottom) Assumed potential map using six-fold degenerate harmonic expansions. [\textbf{other_pmap_papers}]}
+        \label{fig:pamp_other}
+    \end{figure}
+    
+    Furthermore, the potential map, specifically the \textit{groundstate} potential map, provides a nice point-of-comparison for any future coarse-grained force fields and would allow for easy parameter tuning.
 
     \section{Broad Sweep}
     Like one would do when surveying a new region, a broad sweep is first carried out to set bearings, test a assumptions, and begin to understand how both fill and rotation of the water molecules affects the energetics of the system. 

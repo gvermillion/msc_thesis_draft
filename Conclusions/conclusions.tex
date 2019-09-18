@@ -3,7 +3,7 @@
 \label{chap:conclusions}
 
 
-The work presented not only elucidates the structural properties and dynamics of nanoconfined water molecules in beryl, but it also identifies a computational protocol for studying similar crystal systems. The top-line conclusions and outlook for each portion of the study are presented below.
+The work presented not only elucidates the structural and electronic properties of nanoconfined water molecules in beryl, but it also identifies a computational protocol for studying similar crystal systems. The top-line conclusions and outlook for each portion of the study are presented below followed by the proposed computational protocol.
 
 \section{Structural Optimization} 
 
@@ -60,3 +60,55 @@ By comparing the in-beryl and in-vacuum cases, it appears that the beryl framewo
 The existence of such a master background potential suggests that if it can be fit to an analytic function, future potential maps could be calculated without the framework atoms, significantly reducing the computational cost. This reduction in computational cost would allow for one of the greatest improvements of this work to be implemented \textemdash specifically, using a larger unit cell, which would allow for more fill factors, and more degenerate configurations for each fill factor, to be investigated. This improvement is desired, because slight differences between the degenerate fill 0.50 cases were seen. While these differences were negligible compared to the effects of fill itself, they suggest that the spatial arrangement of the water molecules also affects the energetic of the system. Hence, a larger unit cell would allow for a greater exploration of this parameter space.
 
 \section{Partial Charge Analysis}
+
+\paragraph{Benchmark} The partial charge analysis contains the greatest amount of systematic error. Although the Wannierization proves to be the most consistent for the cases of the n-mers dipole moments, an issue with convergence is apparent in the lack of reproducible dipole calculation results. This issue is not unique to this work, and others have posited that there is a poorly converged position operator in the Wannierization process. This poor convergence causes the Wannier centers, and therefore the dipole moments, to fluctuate around the expected value; however, some of these fluctuations result is very large, unexpected dipole moments. 
+
+Since the expected results are known for the n-mer cases, sample sets were collected for each case. A modified Z-test was then tuned to detect and remove the outliers. With confidence in the methodology established by decent results for the n-mer cases, this protocol was followed for partial charge analysis.
+
+\paragraph{Extra-Framework Water Analysis} Partial charge analysis was carried out for the vacuum case (with both water-molecule geometries) and the beryl case. For the vacuum cases, the results are consistent qualitatively with respect to geometry. This further bolsters confidence in the applied technique. The average dipole moment per molecule is proportional to the fill, but a sharp increase in the dipole moment is observed for fill factor $\phi=0.75$. It is not clear form the data set why this case should have such a high dipole moment, but the differences in the degenerate $\phi =0.50$ offer a clue. It appears that the dipole moment is much more sensitive to the relative position of extra-framework atoms than the energy or the geometry. Perhaps if a larger unit cell were used with more degenerate cases, the $\phi=0.75$ results would appear less dramatic.
+
+Results are only available for a portion of the beryl-case fills due to the high computational cost of acquisition \textemdash approximately four weeks per fill. From the $\phi=0.25$ case, there appears to be a slight decrease in the average dipole moment compared to the beryl-geometry vacuum case, but when the error bars are considered, the results are indistinguishable. If this consistency holds with the other fills, or more convincingly with better statistics for the vacuum case, removing the framework atoms for purposes of calculating partial charges would offer orders of magnitude increase in efficiency.
+
+The numerical results for all available partial charge assignments are given in Table \ref{tab:partial_charge}.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|c|c|c}
+       Fill  & Vacuum$^{1}$ & Vacuum$^2$ & Beryl   \\
+       \hline
+       \hline
+       1000  & -3.26 &  -4.95 & -3.32 \\
+       1010  & -4.89 &  -4.94 & \textemdash  \\
+       1100  & -6.52 &  -6.59 & \textemdash \\
+       1110  & -13.02 & -11.51 & \textemdash \\
+       1111  & -6.51 &  -6.56 & \textemdash \\
+    \end{tabular}
+    \caption{Partial charge assignments in units of elementary charge $e$ for the oxygen ions. $^1$Vacuum case with vacuum-geometry water molecules. $^2$Vacuum case with beryl-geometry water molecules}
+    \label{tab:partial_charge}
+\end{table}
+
+Either resolving the convergence issue, collecting larger data sets, or utilizing a more sophisticated outlier technique would all likely provide the most significant improvement in the confidence of these results. Potential untested culprits for the convergence issue are basis set and functional. Collecting a larger data set, especially for the potential map cases, will require weeks to months worth of computational time on the JUSTUS cluster. There may exist methods for outlier detection that also take into account the dipole measurements of other systems, perhaps in the realm of machine learning.
+
+\section{Computational Protocol}
+
+Based upon the experience gained during the course of this work, the following protocol is proposed for future studies. 
+
+\paragraph{Benchmark} Seeing as the partial change assignments are the least-converged quantity, all parameter choices should be benchmarked against the n-mer dipole moments rather than the energy or structural parameters.
+
+\paragraph{Structural Optimization} Begin by sampling and fitting the equation of state curve. A more accurate description may be achievable by fitting to multiple equations of state and aggregating the results. Once the crystal framework has been optimized, begin relaxing water molecules over a multitude of fill and rotation configurations. Choosing said configurations stochastically may provide improvements over the results in this study. 
+
+\paragraph{Potential Maps} If only interested in groundstate properties, calculating the potential maps with antiferroelectrically coupled water molecules is appropriate.
+
+\paragraph{Partial Charge Assignment} Finally, using the self-consistent wavefunctions from the potential maps, perform Wannierization to obtain the Wannier function centers. Using the resulting dipole moment and water molecule geometry, calculate the partial charge assignment.
+
+\section{General Outlook}
+
+One open question is whether or not a classical force field can be parameterized that produces the same groundstate potential map. While initial guesses for the physical parameters is obtained from this work, choices for the computational parameters (Lennard-Jones coefficients, cut-offs, etc.) are not. While the van der Waals interactions are thought to be weak, attempting to determine an initial guess from DFT methods would be an ideal first step. Then, different cut-offs for the Coulomb interaction can be investigated. Since the most significant features appear to arise from dipole-dipole interactions, it is not clear how large this value should be. Tuning this parameter against the DFT potential maps would help elucidate how many \textit{neighbors} significantly interact with each water molecule.
+
+Another step in parameterizing a force field would be fitting the framework contribution to an analytic function. While not necessarily conceptually challenging, this will require comparing a lot of candidate equations.
+
+Since the framework contribution lifts an energy degeneracy in the global minimum, it would also be interesting to see if a one-dimension chain of water molecules in the beryl framework exhibit a phase transition. Whether or not the production of such systems would be technically possible is unknown.
+
+Exploring all of the above as a function of pressure would also be of interest and is in-line with current experimental work.
+
+Overall, it is clear that these systems and avenues of research are ripe with questions and worthy of future research.
