@@ -12,7 +12,9 @@ Here, necessary background information is presented. To begin, a cursory overvie
     
     \subsection{Density Functional Theory}
     
-    Density Functional Theory (DFT) is a quantum mechanical technique used to the solve interacting many-body problem and attain an approximation for the groundstate wavefunction of a system [\textbf{bird's eye view of dft paper}]. However, to truly appreciate what DFT has to offer, first consider a system of ions and electrons, totally $N$ bodies. Solving any equations for such a system is a $3N$ dimensional problem. This dimensionality can be (drastically) reduced (in the case of large $N$) if one considers rather the ion and electron densities. Since the Born-Oppenheimer (BO) approximation is typically invoked\textemdash that is, the ionic and electronic systems can be decoupled\textemdash this reduces the problem to solving for a 3-dimensional wavefunction.
+    Density Functional Theory (DFT) is a quantum mechanical technique used to the solve interacting many-body problems and attain an approximation for the groundstate wavefunction of a system [\textbf{bird's eye view of dft paper}]. 
+    
+    To appreciate what DFT has to offer from a high-level, first consider a system of ions and electrons, totally $N$ bodies. Solving any equation for such a system is a $3N$ dimensional problem. This dimensionality can be (drastically) reduced (in the case of large $N$) if one considers rather the ion and electron densities. Since the Born-Oppenheimer (BO) approximation is typically invoked\textemdash that is, the ionic and electronic systems can be decoupled\textemdash this reduces the problem to solving for a 3-dimensional wavefunction. Still, such a solution is not easily come by, and additional machinery is needed.
     
         \subsubsection{Hohenberg-Kohn Theorems} 
         
@@ -24,14 +26,14 @@ Here, necessary background information is presented. To begin, a cursory overvie
         
         \subsubsection{Kohn-Sham Equation} 
         
-        The Kohn-Sham (KS) equation is a single-particle, Schrödinger-like equation for a fictitious system of non-interacting particles that produces the same groundstate density as the interacting many-body system. It takes the form
+        The Kohn-Sham (KS) equation is a single-particle, Schr{\"o}dinger-like equation for a fictitious system of non-interacting particles that produces the same groundstate density as the interacting many-body system. It takes the form
         
         \begin{equation}
             \label{eq:ks}
             \left[-\frac{\hbar^2}{2 m}\nabla^2 + V_\text{eff}(\Vec{r}) \right]\phi_i(\Vec{r}) = \varepsilon_i \phi_i(\Vec{r}),
         \end{equation}
         
-        \noindent for reduced Planck constant $\hbar$, electron mass $m$, gradient operator $\nabla$, an effective potential $v_\text{eff}$, and fictitious KS-orbitals $\phi_i$ with corresponding KS-energy $\varepsilon_i$. (Note, again the BO approximation is invoked here.) The density of the original $N$-body problems is related to the fictitious KS-orbitals by
+        \noindent for reduced Planck constant $\hbar$, electron mass $m$, gradient operator $\nabla$, an effective potential $V_\text{eff}$, and fictitious KS-orbitals $\phi_i$ with corresponding KS-energy $\varepsilon_i$. (Note, again the BO approximation is invoked here.) The density of the original $N$-body problems is related to the fictitious KS-orbitals by
         
         \begin{equation}
             n(\Vec{r}) = \sum\limits_{i=1}^N |\phi_i(\Vec{r}) |^2
@@ -64,7 +66,7 @@ Here, necessary background information is presented. To begin, a cursory overvie
             E_\text{H}[n] = \frac{e^2}{2}\int\int \frac{n(\Vec{r})n(\Vec{r'})}{|\Vec{r} - \Vec{r'}|}d\Vec{r}d\Vec{r'}, 
         \end{equation}
         
-        \noindent and exchange-correlation (xc) energy $E_\text{sc}$ which is discussed in detail below. 
+        \noindent and exchange-correlation (xc) energy $E_\text{xc}$ which is discussed in detail below. 
         
         (As a nomenclature note, eqs. (\ref{eq:func1}-\ref{eq:func3}) are functionals as denoted by the use of $[\text{ }]$. Put simply a functional is a function that takes other functions, such as the density $n(\Vec{r})$, as inputs.)
         
@@ -80,11 +82,11 @@ Here, necessary background information is presented. To begin, a cursory overvie
             \nu_\text{xc}(\vec(\vec{r})) = \frac{\partial E_{xc}[n(\vec{r})]}{\partial n(\vec{r})},
         \end{equation}
         
-        \noident which encompasses all other many-body interactions and is the only component that is not known exactly.
+        \noindent which encompasses all other many-body interactions and is the only component that is not known exactly, and approximations must be made. More on that below.
         
         \subsubsection{Exchange-Correlation Functional}
         
-        Broadly stated, exchange-correlation refers to all of the interactions between the many-bodies with corresponding xc-energy $E_\text{xc}$. In the case of electrons, the exchange refers to the well-known Pauli exclusion principle, and the correlation refers to all other correlations with the exception of the Hartree/Coulomb correlation, for which eq. (\ref{eq:func3}) already accounts. The corresponding energy is thus
+        Broadly stated, exchange-correlation refers to all of the interactions between the many-bodies with corresponding xc-energy $E_\text{xc}$. In the case of fermions, the exchange refers to the well-known Pauli exclusion principle, and the correlation refers to all other correlations with the exception of the Hartree/Coulomb correlation, for which eq. (\ref{eq:func3}) already accounts. The corresponding energy is thus
         
         \begin{equation}
             \label{eq:xc_energy}
@@ -95,7 +97,7 @@ Here, necessary background information is presented. To begin, a cursory overvie
         
         As the use of phrases such as "all other correlations" may suggests, eq. (\ref{eq:xc_energy}) is not known exactly and is where errors are introduced to DFT. Collectively, these potentials are known as the xc-functional $\varepsilon_\text{xc} = \varepsilon_\text{x} + \varepsilon_\text{c}$ and approximations must be used.
         
-        \paragraph{Local-Density Approximation} One of the more basic approximations is the Local-Density Approximation (LDA), which depends solely upon the electron density at a given point
+        \paragraph{Local-Density Approximation} One of the basic approximations is the Local Density Approximation (LDA), which depends solely upon the electron density at a given point
         
         \begin{equation}
             \varepsilon_\text{xc}[n(\vec(r))] \approx \varepsilon_\text{xc}^\text{LDA}[n(\vec(r))].
@@ -114,7 +116,7 @@ Here, necessary background information is presented. To begin, a cursory overvie
         
         \subsubsection{Variational Principle}
         
-        Before putting all of the above theoretical pieces together, one more piece is needed to form an high-level understanding of DFT\textemdash the variational principle. From calculus of variations, it is known that any physical quantity that depends on a set of equations can be optimized by an element in that set. The generalized methods by which this function is obtained is referred to as the variational principle [\textbf{ISBN 0-8020-1743-6}]. Note, an implicit assumption in the above statement is that the quantity, or observable, being measured is bound on at least one end.
+        Before putting all of the above theoretical pieces together, one more piece is needed to form a high-level understanding of DFT\textemdash the variational principle. From calculus of variations, it is known that any physical quantity that depends on a set of equations can be optimized by an element in that set. The generalized methods by which this function is obtained is referred to as the variational principle [\textbf{ISBN 0-8020-1743-6}]. Note, an implicit assumption in the above statement is that the quantity, or observable, being measured is bound on at least one end.
         
         To unpack this definition contextually, consider the energy $E$ of some quantum mechanical system, which is a functional of the wavefunction $\psi$
         
@@ -146,7 +148,7 @@ Here, necessary background information is presented. To begin, a cursory overvie
         
         \begin{enumerate}
             \item An initial guess of the density $n_k(\Vec{r})$ is made.
-            \item The effective potential $V_\text[n_k(\vec{r})]$ is evaluated.
+            \item The effective potential $V[n_k(\vec{r})]$ is evaluated.
             \item The KS equation (\ref{eq:ks}) is solved.
             \item The new density is calculated $n_{k+1}(\Vec{r}) = \sum\limits_{i=1}^N |\phi_i(\vec{r})|^2$.
             \item The following statement is evaluated as True of False for some tolerance $\delta$:
@@ -163,7 +165,7 @@ Here, necessary background information is presented. To begin, a cursory overvie
     
     \subsection{Wannierization}
     
-    Wannierization is generally used to describe a change of basis transformation from one basis set to Wannier functions, which can serve as a basis set for periodic solids. Consider, for instance, the commonly used basis set comprised of Bloch orbitals
+    Wannierization describes a change of basis transformation from one basis set to Wannier functions, which can serve as a basis set for periodic solids. Consider, for instance, the commonly used basis set comprised of Bloch orbitals
     
     \begin{equation}
     \label{eq:wan_1}
@@ -188,21 +190,21 @@ Here, necessary background information is presented. To begin, a cursory overvie
     \noindent Such WFs, known as maximally localized wannier functions (MLWFs) are extremely useful to understand the system chemically and can be thought of as the conceptual analog to molecular orbitals in periodic solids [\textbf{wannier review}].
     
     
-    There exist many reasons for doing such a transformation (see [\textbf{wannier review} for extensive review of theory and applications), but the impetus for this study lies in partial change analysis. It turns out the the centers of the MLWFs can be thought of as the classical location for the point charge, and the sum of all of the centers is related to the polarization [\textbf{wannier review}]. More details on how this technique is utilized are given in the Chapter \ref{ch:part_char}.
+    There exist many reasons for doing such a transformation (see [\textbf{wannier review}] for extensive review of theory and applications), but the impetus for this study lies in partial change analysis. It turns out the the centers of the MLWFs can be thought of as the classical location for the point charge, and the sum of all of the centers is related to the polarization [\textbf{wannier review}]. More details on how this technique is utilized are given in the Chapter \ref{ch:part_char}.
     
     Again, the actual subroutines implemented to calculated the MLWFs and their corresponding centers are treated as a black box for the purposes of this study.
     
     \subsection{Force Fields}
     
-    There are many reasons why one would want to avoid using the DFT techniques described above when computationally investigating a system. For starters, DFT calculations generally require significant computational resources, to the point that running certain calculations in this require access to some type of cluster. There are benefits to this higher cost though, specifically the electronic subsystem's degrees of freedom are in fact free. When trying to calculate the effect on a molecule's dipole in the presence of other atoms, for example, it is necessary that the electronic subsystem can interact.
+    There are many reasons why one would want to avoid using the DFT techniques described above when computationally investigating a system. For starters, DFT calculations generally require significant computational resources, to the point that running certain calculations in this work require access to some type of cluster. There are benefits to this higher cost though, specifically the electronic subsystem's degrees of freedom are, in fact, free. When trying to calculate the effect on a molecule's dipole in the presence of other atoms, for example, it is necessary that the electronic subsystem can interact.
     
     What if, though, the obversable of interest in not dependent explicitly on the electronic subsystem\textemdash say, the dynamics of $N$ molecules in a box of volume $V$. Here, fluctuations in the electronic subsystem are assumed negligible for purposes of interaction calculations, and it is reasonable to assign point charges to the atoms, effectively freezing the electronic degrees of freedom. 
     
-    Assigning such a point charge dramatically decreases computational cost, because the expensive DFT procedures can be skipped. But it immediately begs the question: how much charge do you assign to each atom? The process by which this question is answered is known as parameterization.
+    Assigning such a point charge is an example of a parameter and dramatically decreases computational cost, because the expensive DFT procedures can be skipped. But it immediately begs the question: how much charge do you assign to each atom? The process by which this question is answered is known as parameterization.
     
         \subsubsection{Parameterization}
         
-        In generally, parameterization is the process by which the total energy $E_T$ of a system is decomposed into independent contributions, namely bonded and non-bonded energy
+        In general, parameterization is the process by which the total energy $E_T$ of a system is decomposed into independent contributions, namely bonded and non-bonded energy
         
         \begin{equation}
             E_T = E_B + E_N.
@@ -212,7 +214,7 @@ Here, necessary background information is presented. To begin, a cursory overvie
         
         \begin{figure}
             \centering
-            \includegraphics[width=0.7\linewidth]{Figures/System/water-molecule.jpg}
+            \includegraphics[width=0.4\linewidth]{Figures/System/water-molecule.jpg}
             \caption{Depiction of a water molecules with one oxygen atom (red) and two hydrogen atoms (silver). The two covalent bonds are indicated by a white bar. [\textbf{turbosquid.com}]}
             \label{fig:water_molecule}
         \end{figure}
@@ -224,7 +226,7 @@ Here, necessary background information is presented. To begin, a cursory overvie
             
             \begin{equation}
             \label{eq:bond_param}
-                E_\text{bond} = k_b(|\vec{r}|=|\vec{r_0}|),
+                E_\text{bond} = k_b(|\vec{r}|-|\vec{r_0}|),
             \end{equation}
             
             \noindent for separation vector $\vec{r}$, equilibrium separation vector $\vec{r_0}$, and bond parameter $k_b$. In order to use (\ref{eq:bond_param}), values must be provided for the bond parameter and the equilibrium separation vector.
@@ -235,15 +237,14 @@ Here, necessary background information is presented. To begin, a cursory overvie
                 E_\text{ang} = k_a(\theta - \theta_0),
             \end{equation}
             
-            \noindent for angle parameter $k_a$ and equilibrium OHO angle $\theta_0$. Again, both of these require a numeric value to be of any use. Finally, each atomic species has a partial charge assigned to it, such that the total charge vanishes.
+            \noindent for angle parameter $k_a$ and equilibrium OHO angle $\theta_0$. Again, both of these require a numeric value to be of any use. Additionally, each atomic species has a partial charge assigned to it, such that the total charge vanishes.
+
             
-            \paragraph{Tuning Parameter Value} There are numerous options for determining the parameter values, but the general procedure is the same. Some initial guess is made, typically in reference to a value from experiment or more-accurate quantum calculation, and an experiment is performed to measure an observable. For instance, the in the case of the water molecule, and box of water may be simulated at ambient conditions and the density of water molecules is measured. This measured density can be compared to the reference value, and if the results are not satisfactory, the parameters are adjusted slightly and the experiment is repeated.
-            
-            In this work, a variant of this procedure is followed.
+            \paragraph{Tuning Parameter Value} There are numerous options for determining the parameter values, but the general procedure is the same. Some initial guess is made, typically in reference to a value from experiment or more-accurate quantum calculation, and an experiment is performed to measure an observable. For instance, the in the case of the water molecule, and box of water may be simulated at ambient conditions and the density of water molecules is measured. This measured density can be compared to the reference value, and if the results are not satisfactory, the parameters are adjusted slightly and the experiment is repeated. This process continues until the force field reproduces the correct density, at least in a satisfactory manner.
 
     \section{System Overview}
     
-    In the following, the system under investigation is briefly introduced. First, the framework crystal beryl is presented with relevant structural data followed by the extra-framework water. Throughout this work, more specific system details will be highlighted as necessary. This section is mainly concerned with familiarizing the reader with the system.
+    In the following, the system under investigation is briefly introduced. First, the framework crystal beryl is presented with relevant structural data followed by the extra-framework water. Throughout this work, more specific system details will be highlighted as necessary. This section is mainly concerned with introducing the reader to the system.
     
         \subsection{Beryl Framework}
         
@@ -254,7 +255,7 @@ Here, necessary background information is presented. To begin, a cursory overvie
             \label{fig:beryl_structure}
         \end{figure}
         
-        Beryl (Be$_3$Al$_2$Si$_6$O$_18$ is a hexagonal crystal composed on beryllium, silicon, aluminum, and oxygen atoms. The structure (shown in Fig. \ref{fig:beryl_structure}) can be decomposed into two components: a beryllium-aluminum octohedral backbone and silicon-oxygen tetrahedral rings. 
+        Beryl (Be$_3$Al$_2$Si$_6$O$_{18}$) is a hexagonal crystal composed on beryllium, silicon, aluminum, and oxygen atoms. The structure (shown in Fig. \ref{fig:beryl_structure}) can be decomposed into two components: a beryllium-aluminum octohedral backbone and silicon-oxygen tetrahedral rings. 
         
         When the unit cell (depicted in grey) is repeated, hollow channels formed when view along the $c$-axis (Fig. \ref{fig:beryl_structure}a). When viewed from the side, it is clear that these silicon-oxygen rings forms bottlenecks along the channel effectively creating a periodic array of nanocages (Fig. \ref{fig:beryl_structure}b), with each cage made up of two silicon-oxygen rings and one beryllium-aluminum ring (Fig. \ref{fig:beryl_structure}c).
         
@@ -265,7 +266,7 @@ Here, necessary background information is presented. To begin, a cursory overvie
             \label{fig:beryl_tem}
         \end{figure}
         
-        A dark-field tunneling electron microscope (TEM) image view down the $c$-axis is shown in Fig. \ref{fig:beryl_tem}. The hexagonal structure and channels are clearly visible in Fig. \ref{fig:beryl_tem}A, and when a smaller region is examined in detail (Fig. \ref{fig:beryl_tem}B) some of the channels appear to be occupied. By looking at an intensity line cut along the path highlighted in Fig. \ref{fig:beryl_tem}B, the occupation of the first and third channels in unambiguous. 
+        A dark-field tunneling electron microscope (TEM) image viewed down the $c$-axis is shown in Fig. \ref{fig:beryl_tem}. The hexagonal structure and channels are clearly visible in Fig. \ref{fig:beryl_tem}A, and when a smaller region is examined in detail (Fig. \ref{fig:beryl_tem}B) some of the channels appear to be occupied. By looking at an intensity line cut along the path highlighted in Fig. \ref{fig:beryl_tem}B, the occupation of the first and third channels in unambiguous. 
         
         Identification of the extra-framework species is not immediately clear from Fig. \ref{fig:beryl_tem}, but further studies have shown that these species can be cations or, as is of interest for this study, single water molecules [\textbf{nature paper}].
         
@@ -278,15 +279,15 @@ Here, necessary background information is presented. To begin, a cursory overvie
             \label{fig:beryl_water}
         \end{figure}
         
-        Beryl crystal are grown hydrothermally, and as part of that process, water molecules become trapped in the nanocages, as shown in Fig. \ref{fig:beryl_water}. Within the $ab$-plane, the water molecules are separated by a distance of 9.2 $\Angstrom$ and 4.8 $\Angstrom$ along the $c$-axis. This partitioning interrupts the hydrogen bond network typically found in water systems. As a result, the water molecules interact solely via the dipole-dipole interaction. 
+        Beryl crystal are grown hydrothermally, and as part of that process, water molecules become trapped in the nanocages, as shown in Fig. \ref{fig:beryl_water}. Within the $ab$-plane, the water molecules are separated by a distance of 9.2 $\angstrom$ and 4.8 $\angstrom$ along the $c$-axis. This partitioning interrupts the hydrogen bond network typically found in water systems. As a result, the water molecules interact solely via the dipole-dipole interaction. 
         
         \paragraph{Water Types} Depending on the existence of additional foreign atoms, there exists two types of confined water. The first, type I, exists in the absence of any other foreign atom with the dipole moment in the $ab$-plane (Fig. \ref{fig:beryl_water}b, top). Relevant degrees of freedom include in-plane translation and librations (i.e. restricted rotations) about the high-symmetry point. When a cation is present in a silicon-oxygen ring, the electrostatic interaction between the water oxygen and cation causes the water molecule to rotate so that the dipole moment is parallel to the $c$-axis (Fig. \ref{fig:beryl_water}b, bottom). Here, the primary degree of freedom is rotation about the $c$-axis [\textbf{nature paper}]. 
         
         Type I water molecules are the focus of this study.
         
-        \paragraph{Extra-Framework Dynamics} Due to the interruption of hydrogen bonds and regularly repeating framework, this confined system is a good candidate for ferroelectric ordering. Signatures of such ordering have been seen in low-temperature optical experiments, but complete ordering appears to be confounded by quantum fluctuations [\textbf{nature paper}]. Additionally, neutron scattering experiments suggest a novel tunneling state of water, characterized by a delocalization of the protons and electrons [\textbf{prl paper}].
+        \paragraph{Extra-Framework Dynamics} Due to the interruption of hydrogen bonds and the regularly repeating framework, this confined system is a good candidate for ferroelectric ordering. Signatures of such ordering have been seen in low-temperature optical experiments, but complete ordering appears to be confounded by quantum fluctuations [\textbf{nature paper}]. Additionally, neutron scattering experiments suggest a novel tunneling state of water, characterized by a delocalization of the protons and electrons [\textbf{prl paper}].
         
-        A detailed picture of the extra-framework water dynamics is still lacking, though\textemdash hence, this work.
+        A detailed picture of the extra-framework water dynamics is still lacking, though \textemdash hence, this work.
         
     \section{Calculation Details}
     
@@ -342,3 +343,16 @@ Here, necessary background information is presented. To begin, a cursory overvie
     To generate the input files for Wannier90, VASP is compiled with the VASP2WANNIER library.
     
  \paragraph{Wannier90} The partial charge analysis is carried out using Wannier90 1.2 [\textbf{wannier.org}] The number of wannier functions and number of bands is set to half the number of electrons in all cases, since none of the calculations are spin polarized. All additional bands are explicitly excluded. Random initial projections are used, and the centers are written in XYZ format.
+ 
+ \paragraph{High Symmetry Point and Standard Initial Position} Throughout this work, reference is made to a \textit{high-symmetry point}. This point refers to the (2a) Wyckoff position [\textbf{http://www.cryst.ehu.es/cgi-bin/cryst/programs/nph-wp-list}], which is located in the center of each nanocages. It is about this position that all rotations are made.
+ 
+ \begin{figure}
+     \centering
+     \includegraphics[width=0.6\linewidth]{Figures/System/initial_pos.png}
+     \caption{Diagram illustrating the slight offset in the x-direction for the water molecule. )Adapted from [\textbf{DOI: 10.1039/C7CP06472A}].)}
+     \label{fig:init_pos}
+ \end{figure}
+ 
+ In addition, reference is also made to the standard initial position. This positions implies two things. First, the dipole moment of the water molecule is parallel to the x-axis and points towards a beryllium atom. Second, due to the distribution of the charge, a slight shift in the negative x-direction is made. Figure \ref{fig:init_pos} demonstrates both of these characteristics. (Here, the (2a) Wyckoff position is taken to be the origin.) When the water molecule is rotated, it is rotated counter-clockwise about the z-axis.
+ 
+ 
